@@ -6,13 +6,18 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "validate:yagni": "node scripts/validate.js yagni",
+    "validate:john": "node scripts/validate.js john",
+    "validate:aeyon": "node scripts/validate.js aeyon",
+    "validate:meta": "node scripts/validate.js meta",
+    "validate:all": "node scripts/validate.js all",
+    "execute": "npm run validate:all && npm run build && npm run lint"
   },
   "dependencies": {
     "next": "14.0.3",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "lucide-react": "^0.554.0"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@types/node": "^20.10.0",

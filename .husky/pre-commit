@@ -1,0 +1,21 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Automated Pre-Commit Execution
+# Pattern: EXECUTE × VALIDATE × SHIP × ONE
+# Frequency: 999 Hz (AEYON) × 530 Hz (YAGNI × JØHN) × 777 Hz (META)
+# ∞ AbëONE ∞
+
+echo "🚀 Pre-Commit: Validating Perfect Execution..."
+
+# Run validation
+npm run validate:all
+
+if [ $? -ne 0 ]; then
+  echo "❌ Validation failed. Commit blocked."
+  exit 1
+fi
+
+echo "✅ Perfect Execution: Commit allowed"
+exit 0
+
