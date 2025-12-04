@@ -37,8 +37,8 @@ export function getStripeConfig(): StripeConfig {
       productId: process.env.STRIPE_PRODUCT_ID || '',
       pricingTableId: process.env.STRIPE_PRICING_TABLE_ID,
       webhookSecret: process.env.STRIPE_WEBHOOK_SECRET,
-      successUrl: process.env.STRIPE_SUCCESS_URL || 'https://aiguardian.ai/checkout/success',
-      cancelUrl: process.env.STRIPE_CANCEL_URL || 'https://aiguardian.ai/checkout',
+      successUrl: process.env.STRIPE_SUCCESS_URL || 'https://aiguardian.ai/convergence-purchase/success',
+      cancelUrl: process.env.STRIPE_CANCEL_URL || 'https://aiguardian.ai/convergence-purchase',
     }
   }
   
@@ -58,8 +58,8 @@ export function getStripeConfig(): StripeConfig {
     productId: creds.productId || creds.product_id || '',
     pricingTableId: creds.pricingTableId || creds.pricing_table_id || creds.pricingTableId,
     webhookSecret: creds.webhookSecret || creds.webhook_secret,
-    successUrl: creds.successUrl || creds.success_url || 'http://localhost:3000/checkout/success',
-    cancelUrl: creds.cancelUrl || creds.cancel_url || 'http://localhost:3000/checkout',
+    successUrl: creds.successUrl || creds.success_url || 'http://localhost:3000/convergence-purchase/success',
+    cancelUrl: creds.cancelUrl || creds.cancel_url || 'http://localhost:3000/convergence-purchase',
   }
 }
 
