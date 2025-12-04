@@ -9,6 +9,8 @@ import { readFileSync, existsSync } from 'fs'
 import { join } from 'path'
 import { homedir } from 'os'
 
+// UNIVERSAL SYSTEM: Single source of truth for AbëKEYs directory
+// YAGNI: Simple, direct path - no abstraction needed
 const ABEKEYS_DIR = join(homedir(), '.abekeys', 'credentials')
 
 export interface NamecheapConfig {
