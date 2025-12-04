@@ -401,27 +401,27 @@ export const ultimateConvergenceSlides: SlideData[] = [
     phase: 'EXECUTE',
     title: '{gold}$497{/gold}. One-Time. Yours Forever.',
     subtitle: 'No Subscription • No Monthly Fees • 60-Day Guarantee',
-    body: 'This is Convergence Sprint methodology—a one-time investment. No recurring fees. No subscriptions. Not AI Guardian ($99/month). The pattern, toolkit, guide, checklist, and 30 days of support. Yours forever. Plus 60-day money-back guarantee. Risk-free. Compare to: 1 month of trial/error (40+ hours), hiring a consultant ($150+/hr), or team training ($5K+).',
-    insight: 'Make it crystal clear: This is one-time methodology, not monthly subscription. This is Convergence Sprint, not AI Guardian. Different products. Different pricing. Different purposes.',
+    body: 'This is Convergence Sprint methodology—a one-time investment. No recurring fees. No subscriptions. Not AI Guardian Suite ($99/month for ongoing AI safety services). The pattern, toolkit, guide, checklist, and 30 days of support. Yours forever. Plus 60-day money-back guarantee. Risk-free. Compare to: 1 month of trial/error (40+ hours), hiring a consultant ($150+/hr), or team training ($5K+).',
+    insight: 'Make it crystal clear: This is one-time methodology, not monthly subscription. This is Convergence Sprint (pattern implementation), not AI Guardian Suite (ongoing AI safety services). Different products. Different pricing. Different purposes. Use Sprint to master the pattern. Use Guardian for ongoing protection.',
   },
   {
     id: 'ultimate-27b',
     phase: 'EXECUTE',
     title: 'This Is {gold}Convergence Sprint{/gold}, Not AI Guardian',
-    subtitle: 'Methodology vs Tool • One-Time vs Monthly • Pattern vs Product',
+    subtitle: 'Methodology vs Tool Suite • One-Time vs Monthly • Pattern vs Services',
     boxes: [
       { 
         label: 'SPRINT', 
         title: 'Convergence Sprint ($497)', 
-        body: '30-day methodology implementation. Learn the pattern. Own it forever. One-time investment. Works with any AI tool.' 
+        body: '30-day methodology implementation. Learn the Convergence Loop pattern. Own it forever. One-time investment. Works with any AI tool (including AI Guardian).' 
       },
       { 
         label: 'GUARDIAN', 
-        title: 'AI Guardian ($99/month)', 
-        body: 'Ongoing tool subscription. Monthly recurring. Provides ongoing service. Different product, different purpose.' 
+        title: 'AI Guardian Suite ($99/month)', 
+        body: 'AI Guard Suite: BiasGuard, TokenGuard, TrustGuard, ContextGuard, SecurityGuard + PrivacyGuard, HealthGuard. Ongoing AI safety & optimization services. Monthly subscription. Chrome Extension, API, SDK, Dashboard.' 
       }
     ],
-    insight: 'They\'re complementary, not competing. Sprint teaches you the pattern. Guardian provides ongoing tool value. Different products. Different pricing. Different purposes.',
+    insight: 'They\'re complementary, not competing. Sprint teaches you the pattern to guide AI effectively. Guardian provides ongoing AI safety services (bias detection, cost optimization, security, etc.). Different products. Different pricing. Different purposes. Use Sprint to master the pattern. Use Guardian for ongoing protection.',
   },
   {
     id: 'ultimate-28',

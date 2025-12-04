@@ -32,5 +32,10 @@ export interface SlideData {
   insight?: string
   content?: ReactNode // Fallback for custom content
   notes?: string
+  example?: {
+    prompt: string
+    response: string
+    context?: string
+  }
 }
 

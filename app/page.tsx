@@ -10,14 +10,20 @@
 
 import { useState } from 'react'
 import { SlideDeck } from '@/components/slides'
+import { ultimateConvergenceSlides } from '@/lib/slides/ultimateConvergenceSlides'
 import { unifiedConvergenceSlides } from '@/lib/slides/unifiedConvergenceSlides'
 import { salesConvergenceSlides } from '@/lib/slides/salesConvergenceSlides'
 import { guardianConvergenceSlides } from '@/lib/slides/guardianConvergenceSlides'
 import type { SlideData } from '@/components/slides/types'
 
-type DeckType = 'unified' | 'sales' | 'methodology'
+type DeckType = 'ultimate' | 'unified' | 'sales' | 'methodology'
 
 const decks: Record<DeckType, { slides: SlideData[], title: string, description: string }> = {
+  ultimate: {
+    slides: ultimateConvergenceSlides,
+    title: 'Ultimate Convergence Deck',
+    description: 'THE deck. Transformation from chaos to convergence. $497 = $18K saved.'
+  },
   unified: {
     slides: unifiedConvergenceSlides,
     title: 'Unified Convergence Deck',
@@ -66,14 +72,25 @@ export default function HomePage() {
           </p>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {Object.entries(decks).map(([key, deck]) => (
             <button
               key={key}
               onClick={() => setSelectedDeck(key as DeckType)}
-              className="bg-[#1A1A1A] border-t-2 border-[#C9A227] p-8 text-left hover:bg-[#222222] transition-colors group"
+              className={`bg-[#1A1A1A] border-t-2 p-8 text-left hover:bg-[#222222] transition-colors group ${
+                key === 'ultimate' 
+                  ? 'border-[#C9A227] border-t-4 shadow-lg shadow-[#C9A227]/20' 
+                  : 'border-[#333333]'
+              }`}
             >
-              <div className="text-[11px] font-semibold tracking-[0.2em] text-[#C9A227] uppercase mb-4">
+              {key === 'ultimate' && (
+                <div className="text-[10px] font-semibold tracking-[0.2em] text-[#C9A227] uppercase mb-2">
+                  ⭐ RECOMMENDED
+                </div>
+              )}
+              <div className={`text-[11px] font-semibold tracking-[0.2em] uppercase mb-4 ${
+                key === 'ultimate' ? 'text-[#C9A227]' : 'text-[#C9A227]'
+              }`}>
                 {deck.title}
               </div>
               <div className="text-lg font-medium text-white mb-2 group-hover:text-[#C9A227] transition-colors">

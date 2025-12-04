@@ -81,14 +81,14 @@ export function SlideDeck({ slides, startAt = 0 }: SlideDeckProps) {
       </button>
 
       {/* Slide Content */}
-      <div className="w-full max-w-[1200px] h-full max-h-[800px] p-[60px_80px] flex flex-col relative box-border">
+      <div className="w-full max-w-[1200px] max-h-[90vh] p-[60px_80px] flex flex-col relative box-border overflow-y-auto">
         {slide.phase && (
-          <div className="absolute top-10 right-20 text-[11px] font-semibold tracking-[0.2em] text-[#C9A227] uppercase">
+          <div className="absolute top-10 right-20 text-[11px] font-semibold tracking-[0.2em] text-[#C9A227] uppercase z-10">
             {slide.phase}
           </div>
         )}
 
-        <div className="flex-1 flex flex-col justify-center pt-5">
+        <div className="flex flex-col justify-start pt-5 min-h-0">
           {slide.preTitle && (
             <p className="text-sm text-[#888888] mb-3 italic tracking-[0.02em]">{slide.preTitle}</p>
           )}
@@ -153,6 +153,26 @@ export function SlideDeck({ slides, startAt = 0 }: SlideDeckProps) {
           )}
           {slide.code && (
             <pre className="font-mono text-sm bg-[#1A1A1A] p-6 rounded text-[#CCCCCC] overflow-auto my-6">{slide.code}</pre>
+          )}
+          {slide.example && (
+            <div className="bg-[#111111] border-l-[3px] border-[#C9A227] p-6 my-6 rounded-r">
+              <div className="text-[10px] font-bold tracking-[0.2em] text-[#C9A227] mb-4 uppercase">Live Example: AbëONE in Action</div>
+              <div className="space-y-4">
+                <div>
+                  <div className="text-[11px] font-semibold text-[#888888] mb-2 uppercase tracking-wide">You:</div>
+                  <div className="font-mono text-sm text-[#CCCCCC] bg-[#1A1A1A] p-3 rounded whitespace-pre-wrap">{slide.example.prompt}</div>
+                </div>
+                <div>
+                  <div className="text-[11px] font-semibold text-[#C9A227] mb-2 uppercase tracking-wide">AbëONE:</div>
+                  <div className="font-mono text-sm text-[#C9A227] bg-[#1A1A1A] p-3 rounded whitespace-pre-wrap">{slide.example.response}</div>
+                </div>
+                {slide.example.context && (
+                  <div className="text-xs text-[#888888] italic pt-2 border-t border-[#333333]">
+                    {slide.example.context}
+                  </div>
+                )}
+              </div>
+            </div>
           )}
           {slide.content && <div className="w-full">{slide.content}</div>}
           {slide.footer && (
