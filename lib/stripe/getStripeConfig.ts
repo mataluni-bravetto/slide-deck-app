@@ -37,8 +37,8 @@ export function getStripeConfig(): StripeConfig {
       productId: process.env.STRIPE_PRODUCT_ID || '',
       pricingTableId: process.env.STRIPE_PRICING_TABLE_ID,
       webhookSecret: process.env.STRIPE_WEBHOOK_SECRET,
-      successUrl: process.env.STRIPE_SUCCESS_URL || 'https://yourdomain.com/checkout/success',
-      cancelUrl: process.env.STRIPE_CANCEL_URL || 'https://yourdomain.com/checkout',
+      successUrl: process.env.STRIPE_SUCCESS_URL || 'https://aiguardian.ai/checkout/success',
+      cancelUrl: process.env.STRIPE_CANCEL_URL || 'https://aiguardian.ai/checkout',
     }
   }
   
