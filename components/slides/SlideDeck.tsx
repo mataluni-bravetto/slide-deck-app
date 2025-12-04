@@ -83,22 +83,22 @@ export function SlideDeck({ slides, startAt = 0 }: SlideDeckProps) {
       {/* Slide Content */}
       <div className="w-full max-w-[1200px] max-h-[90vh] p-[60px_80px] flex flex-col relative box-border overflow-y-auto">
         {slide.phase && (
-          <div className="absolute top-10 right-20 text-[11px] font-semibold tracking-[0.2em] text-[#C9A227] uppercase z-10">
+          <div className="absolute top-10 right-20 text-[11px] font-semibold tracking-[0.2em] text-[#C9A227] uppercase z-20">
             {slide.phase}
           </div>
         )}
 
-        <div className="flex flex-col justify-start pt-5 min-h-0">
+        <div className="flex flex-col justify-start pt-8 min-h-0 relative z-10">
           {slide.preTitle && (
             <p className="text-sm text-[#888888] mb-3 italic tracking-[0.02em]">{slide.preTitle}</p>
           )}
           {slide.title && (
-            <h1 className="font-serif text-5xl font-normal leading-tight mb-4 tracking-[-0.01em]">
+            <h1 className="font-serif text-5xl font-normal leading-tight mb-4 tracking-[-0.01em] break-words">
               {parseGoldText(slide.title)}
             </h1>
           )}
           {slide.subtitle && (
-            <p className="text-xl text-[#888888] mb-8 font-light">{slide.subtitle}</p>
+            <p className="text-xl text-[#888888] mb-8 font-light break-words">{slide.subtitle}</p>
           )}
           {slide.giant && (
             <div className="font-serif text-[56px] font-normal leading-[1.3] text-[#C9A227] text-center py-10">
@@ -106,31 +106,31 @@ export function SlideDeck({ slides, startAt = 0 }: SlideDeckProps) {
             </div>
           )}
           {slide.body && (
-            <p className="text-lg leading-[1.7] text-[#CCCCCC] max-w-[800px] mb-6">{slide.body}</p>
+            <p className="text-lg leading-[1.7] text-[#CCCCCC] max-w-[800px] mb-6 break-words">{slide.body}</p>
           )}
           {slide.bullets && (
             <ul className="list-none p-0 my-6">
               {slide.bullets.map((bullet, i) => (
-                <li key={i} className="text-lg leading-[1.6] text-[#CCCCCC] mb-3.5 flex items-start">
-                  <span className="text-[#C9A227] mr-4">•</span>
-                  {bullet}
+                <li key={i} className="text-lg leading-[1.6] text-[#CCCCCC] mb-3.5 flex items-start break-words">
+                  <span className="text-[#C9A227] mr-4 flex-shrink-0">•</span>
+                  <span>{bullet}</span>
                 </li>
               ))}
             </ul>
           )}
           {slide.columns && (
-            <div className="flex gap-10 mt-8 items-start">
-              <div className="flex-1">
+            <div className="flex gap-8 mt-8 items-start">
+              <div className="flex-1 min-w-0">
                 <div className="text-[11px] font-semibold tracking-[0.15em] text-[#666666] mb-5 uppercase">AI EXCELS AT</div>
                 {slide.columns.left.map((item, i) => (
-                  <div key={i} className="text-base text-[#888888] mb-3 pl-4 border-l-2 border-[#333333]">{item}</div>
+                  <div key={i} className="text-base text-[#888888] mb-3 pl-4 border-l-2 border-[#333333] break-words">{item}</div>
                 ))}
               </div>
-              <div className="w-px bg-[#333333] self-stretch" />
-              <div className="flex-1">
+              <div className="w-px bg-[#333333] self-stretch flex-shrink-0" />
+              <div className="flex-1 min-w-0">
                 <div className="text-[11px] font-semibold tracking-[0.15em] text-[#C9A227] mb-5 uppercase">YOU EXCEL AT</div>
                 {slide.columns.right.map((item, i) => (
-                  <div key={i} className="text-base text-white mb-3 pl-4 border-l-2 border-[#C9A227]">{item}</div>
+                  <div key={i} className="text-base text-white mb-3 pl-4 border-l-2 border-[#C9A227] break-words">{item}</div>
                 ))}
               </div>
             </div>
@@ -138,10 +138,10 @@ export function SlideDeck({ slides, startAt = 0 }: SlideDeckProps) {
           {slide.boxes && (
             <div className="flex gap-6 mt-8 flex-wrap">
               {slide.boxes.map((box, i) => (
-                <div key={i} className="flex-[1_1_200px] min-w-[200px] bg-[#1A1A1A] p-6 border-t-2 border-[#C9A227]">
+                <div key={i} className="flex-[1_1_280px] min-w-[280px] max-w-full bg-[#1A1A1A] p-6 border-t-2 border-[#C9A227] break-words">
                   <div className="text-[11px] font-semibold tracking-[0.1em] text-[#C9A227] mb-2">{box.label}</div>
-                  <div className="text-lg font-medium text-white mb-2">{box.title}</div>
-                  <div className="text-sm leading-[1.5] text-[#888888]">{box.body}</div>
+                  <div className="text-lg font-medium text-white mb-2 break-words">{box.title}</div>
+                  <div className="text-sm leading-[1.5] text-[#888888] break-words">{box.body}</div>
                 </div>
               ))}
             </div>
@@ -181,9 +181,9 @@ export function SlideDeck({ slides, startAt = 0 }: SlideDeckProps) {
         </div>
 
         {slide.insight && (
-          <div className="border-l-[3px] border-[#C9A227] bg-[#111111] p-5 mt-8">
+          <div className="border-l-[3px] border-[#C9A227] bg-[#111111] p-5 mt-8 mb-4 break-words">
             <div className="text-[10px] font-bold tracking-[0.2em] text-[#C9A227] mb-2 uppercase">KEY INSIGHT</div>
-            <div className="text-[15px] leading-[1.6] text-[#AAAAAA]">{slide.insight}</div>
+            <div className="text-[15px] leading-[1.6] text-[#AAAAAA] break-words">{slide.insight}</div>
           </div>
         )}
       </div>
