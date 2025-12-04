@@ -1,0 +1,9 @@
+name = "aiguardian-routing"
+main = "cloudflare-worker-deploy.js"
+compatibility_date = "2024-12-04"
+account_id = "c0cef0f56070066f8f79f021cdce028d"
+
+routes = [
+  { pattern = "*aiguardian.ai/convergence-*", zone_name = "aiguardian.ai" }
+]
+
