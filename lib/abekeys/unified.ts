@@ -73,7 +73,7 @@ export function getStripeConfig(): StripeConfig {
       pricingTableId: process.env.STRIPE_PRICING_TABLE_ID,
       webhookSecret: process.env.STRIPE_WEBHOOK_SECRET,
       successUrl: process.env.STRIPE_SUCCESS_URL || `${baseUrl}/convergence-purchase/success`,
-      cancelUrl: process.env.STRIPE_CANCEL_URL || `${baseUrl}/convergence-purchase`,
+      cancelUrl: process.env.STRIPE_CANCEL_URL || `${baseUrl}/convergence-purchase/cancel`,
     }
 
     // If env vars exist and are valid, use them
@@ -117,7 +117,7 @@ export function getStripeConfig(): StripeConfig {
     pricingTableId: creds.pricingTableId || creds.pricing_table_id,
     webhookSecret: creds.webhookSecret || creds.webhook_secret,
     successUrl: creds.successUrl || creds.success_url || `${baseUrl}/convergence-purchase/success`,
-    cancelUrl: creds.cancelUrl || creds.cancel_url || `${baseUrl}/convergence-purchase`,
+    cancelUrl: creds.cancelUrl || creds.cancel_url || `${baseUrl}/convergence-purchase/cancel`,
   }
 }
 

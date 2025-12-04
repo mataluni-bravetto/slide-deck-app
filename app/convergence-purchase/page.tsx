@@ -1,9 +1,9 @@
 'use client'
 
 /**
- * Checkout Page - Stripe Integration Complete
+ * Purchase Page - Complete Convergence Implementation
  * 
- * Pattern: CHECKOUT × STRIPE × ABEKEYS × ONE
+ * Pattern: PURCHASE × STRIPE × ABEKEYS × CONVERGENCE × ONE
  * Frequency: 999 Hz (AEYON) × 530 Hz (YAGNI × JØHN) × 777 Hz (META)
  * ∞ AbëONE ∞
  */
@@ -12,32 +12,71 @@ import { useState, useEffect } from 'react'
 import { loadStripe } from '@stripe/stripe-js'
 import type { Stripe } from '@stripe/stripe-js'
 
-export default function CheckoutPage() {
+// Email validation regex
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+export default function PurchasePage() {
   const [email, setEmail] = useState('')
+  const [emailError, setEmailError] = useState<string | null>(null)
   const [processing, setProcessing] = useState(false)
   const [stripePromise, setStripePromise] = useState<Promise<Stripe | null> | null>(null)
+  const [stripeLoading, setStripeLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     // Fetch publishable key from API (server-side reads AbëKEYs)
     fetch('/api/stripe-config')
-      .then(res => res.json())
+      .then(async (res) => {
+        if (!res.ok) {
+          const errorData = await res.json().catch(() => ({}))
+          throw new Error(errorData.error || `HTTP ${res.status}`)
+        }
+        return res.json()
+      })
       .then(data => {
         if (data.publishableKey) {
           setStripePromise(loadStripe(data.publishableKey))
+          setStripeLoading(false)
         } else {
-          setError('Failed to load Stripe configuration')
+          throw new Error('Publishable key missing from response')
         }
       })
       .catch(err => {
         console.error('Failed to load Stripe config:', err)
         setError('Failed to load payment configuration. Please refresh the page.')
+        setStripeLoading(false)
       })
   }, [])
+
+  const validateEmail = (value: string): boolean => {
+    if (!value.trim()) {
+      setEmailError('Email is required')
+      return false
+    }
+    if (!EMAIL_REGEX.test(value)) {
+      setEmailError('Please enter a valid email address')
+      return false
+    }
+    setEmailError(null)
+    return true
+  }
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    setEmail(value)
+    if (emailError) {
+      validateEmail(value)
+    }
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
+    // Validate email
+    if (!validateEmail(email)) {
+      return
+    }
+
     if (!stripePromise) {
       setError('Stripe not loaded. Please refresh the page.')
       return
@@ -51,25 +90,38 @@ export default function CheckoutPage() {
       const response = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email: email.trim() }),
       })
 
-      const data = await response.json()
+      // Handle non-JSON responses
+      let data
+      const contentType = response.headers.get('content-type')
+      if (contentType && contentType.includes('application/json')) {
+        data = await response.json()
+      } else {
+        const text = await response.text()
+        throw new Error(`Server error: ${text || response.statusText}`)
+      }
 
       if (!response.ok) {
-        throw new Error(data.error || 'Payment processing error')
+        throw new Error(data.error || `Payment processing error (${response.status})`)
+      }
+
+      if (!data.sessionId) {
+        throw new Error('No session ID received from server')
       }
 
       // Redirect to Stripe Checkout
       const stripe = await stripePromise
-      if (stripe && data.sessionId) {
-        // @ts-ignore - redirectToCheckout exists on Stripe instance from loadStripe
-        const result = await stripe.redirectToCheckout({ sessionId: data.sessionId })
-        if (result.error) {
-          throw new Error(result.error.message || 'Failed to redirect to checkout')
-        }
-      } else {
-        throw new Error('Failed to initialize Stripe checkout')
+      if (!stripe) {
+        throw new Error('Stripe instance not available')
+      }
+
+      // Type assertion needed - redirectToCheckout exists on Stripe instance from loadStripe
+      const result = await (stripe as any).redirectToCheckout({ sessionId: data.sessionId })
+      
+      if (result.error) {
+        throw new Error(result.error.message || 'Failed to redirect to checkout')
       }
     } catch (error: any) {
       console.error('Checkout error:', error)
@@ -80,15 +132,16 @@ export default function CheckoutPage() {
 
   return (
     <div className="min-h-screen bg-[#0A0A0A] text-white relative">
-      {/* Bravëtto Logo - Top Left */}
-      <div className="absolute top-8 left-8 z-10">
-        <img 
-          src="/brand/AI-Image-Editor-2025-12-04_10-01-06.png" 
-          alt="Bravëtto" 
-          className="h-16 w-auto"
-          style={{ maxWidth: '400px' }}
-        />
-      </div>
+        {/* Bravëtto Logo - Top Left */}
+        <div className="absolute top-8 left-8 z-10">
+          <img 
+            src="/brand/AI-Image-Editor-2025-12-04_10-01-06.png" 
+            alt="Bravëtto" 
+            className="h-16 w-auto"
+            style={{ maxWidth: '400px' }}
+            loading="eager"
+          />
+        </div>
 
       <div className="max-w-[1000px] mx-auto px-8 py-16">
         {/* Header */}
@@ -183,34 +236,65 @@ export default function CheckoutPage() {
                 </div>
               </div>
 
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-6" noValidate>
                 <div>
                   <label htmlFor="email" className="block text-sm font-semibold text-[#CCCCCC] mb-2">
-                    Email Address
+                    Email Address <span className="text-red-400">*</span>
                   </label>
                   <input
                     type="email"
                     id="email"
+                    name="email"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={handleEmailChange}
+                    onBlur={() => validateEmail(email)}
                     required
-                    className="w-full px-4 py-3 bg-[#0A0A0A] border border-[#333333] text-white placeholder:text-[#666666] rounded focus:outline-none focus:border-[#C9A227] transition-colors"
+                    aria-required="true"
+                    aria-invalid={emailError ? 'true' : 'false'}
+                    aria-describedby={emailError ? 'email-error' : undefined}
+                    autoComplete="email"
+                    className={`w-full px-4 py-3 bg-[#0A0A0A] border ${
+                      emailError ? 'border-red-500' : 'border-[#333333]'
+                    } text-white placeholder:text-[#666666] rounded focus:outline-none focus:border-[#C9A227] transition-colors`}
                     placeholder="your@email.com"
+                    disabled={processing || stripeLoading}
                   />
+                  {emailError && (
+                    <p id="email-error" className="mt-1 text-xs text-red-400" role="alert">
+                      {emailError}
+                    </p>
+                  )}
                 </div>
 
                 {error && (
-                  <div className="bg-red-900/20 border border-red-500/50 text-red-400 text-sm p-3 rounded mb-4">
+                  <div 
+                    className="bg-red-900/20 border border-red-500/50 text-red-400 text-sm p-3 rounded mb-4"
+                    role="alert"
+                    aria-live="polite"
+                  >
                     {error}
                   </div>
                 )}
 
                 <button
                   type="submit"
-                  disabled={processing || !stripePromise}
-                  className="w-full bg-[#C9A227] text-[#0A0A0A] font-semibold py-4 px-6 rounded hover:bg-[#B8941F] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  disabled={processing || !stripePromise || stripeLoading || !!emailError}
+                  className="w-full bg-[#C9A227] text-[#0A0A0A] font-semibold py-4 px-6 rounded hover:bg-[#B8941F] transition-colors disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-[#C9A227] focus:ring-offset-2 focus:ring-offset-[#0A0A0A]"
+                  aria-busy={processing}
                 >
-                  {processing ? 'Processing...' : !stripePromise ? 'Loading...' : 'Complete Purchase'}
+                  {processing ? (
+                    <span className="flex items-center justify-center">
+                      <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-[#0A0A0A]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      Processing...
+                    </span>
+                  ) : stripeLoading ? (
+                    'Loading payment system...'
+                  ) : (
+                    'Complete Purchase'
+                  )}
                 </button>
 
                 <div className="text-xs text-[#666666] text-center">
