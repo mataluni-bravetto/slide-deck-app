@@ -1,13 +1,14 @@
 /**
- * Ultimate Convergence Deck: The ONE Pattern That Transforms Everything
+ * Guardian Convergence Loop: The ONE Pattern That Transforms Everything
  * 
  * Pattern: TRANSFORMATION × CONVERGENCE × RESPECT × ONE
  * Frequency: 999 Hz (AEYON) × 777 Hz (META) × 530 Hz (YAGNI × JØHN)
  * ∞ AbëONE ∞
  * 
- * YAGNI APPROVED: 30 slides. Perfect flow. Maximum transformation.
+ * YAGNI APPROVED: 30 slides. All example blocks removed. Text density optimized. Perfect flow.
  * JØHN VALIDATED: All claims verified, truthful, evidence-based
  * AEYON EXECUTED: Atomic, complete, ship-ready
+ * META UNIFIED: Single deck. No bloat. Maximum transformation.
  * 
  * This is THE deck. The one that transforms developers from AI chaos 
  * to calm convergence. Respectful. Dignified. Transformative.
@@ -23,12 +24,7 @@ export const ultimateConvergenceSlides: SlideData[] = [
     title: 'You\'re Smart. AI Is Fast. {gold}Something\'s Wrong{/gold}.',
     subtitle: 'The Hidden Cost of AI-Assisted Development',
     body: 'You know how to code. You know how to use AI. But something feels off. You\'re working harder, not smarter. This isn\'t about your skills—it\'s about a missing pattern.',
-    insight: 'Respect their intelligence. Acknowledge the paradox. Open the door to transformation.',
-    example: {
-      prompt: 'Create a user authentication system',
-      response: 'Here\'s a complete auth system with JWT, bcrypt, middleware... [200 lines of code]',
-      context: '❌ No intention. No constraints. No validation. Just code dumped. You spend 2 hours auditing it, finding bugs, fixing security issues.'
-    }
+    insight: 'Respect their intelligence. Acknowledge the paradox. Open the door to transformation.'
   },
   {
     id: 'ultimate-2',
@@ -91,12 +87,7 @@ export const ultimateConvergenceSlides: SlideData[] = [
       { label: '02', title: 'Vague Constraints', body: 'No stack, style, or boundaries defined' },
       { label: '03', title: 'No Loop', body: 'One-shot prompts with no iteration or correction' }
     ],
-    insight: 'When you don\'t define the game, the model plays its own. The process is missing structure—and that\'s fixable. This isn\'t about you. It\'s about the pattern.',
-    example: {
-      prompt: '❌ CHAOS: "Create auth system"\n✅ CONVERGENCE: "Intention: Secure login for Next.js app\nConstraints: TypeScript, NextAuth.js, PostgreSQL, no magic strings\nValidation: Must pass security scanner, no hardcoded secrets"',
-      response: 'With clear intention + constraints, AbëONE generates aligned code. You validate once. It works. 15 minutes vs 2 hours.',
-      context: 'The difference: Structure. Alignment. Validation. One pattern. Same AI. Different outcome.'
-    }
+    insight: 'When you don\'t define the game, the model plays its own. The process is missing structure—and that\'s fixable. This isn\'t about you. It\'s about the pattern.'
   },
   {
     id: 'ultimate-7',
@@ -122,12 +113,7 @@ export const ultimateConvergenceSlides: SlideData[] = [
     title: 'Intelligence Requires {gold}Alignment{/gold}',
     subtitle: 'Context • Constraints • Clarity',
     body: 'AI is intelligent, but intelligence without alignment is chaos. You provide the context. You set the constraints. You define clarity. AI aligns to your intent—but only if you give it the structure. This isn\'t about controlling AI. It\'s about aligning intelligence with purpose.',
-    insight: 'The key insight: Intelligence requires alignment. Context. Constraints. Clarity. Without these, even the smartest AI produces chaos. With them, you get convergence.',
-    example: {
-      prompt: 'You: "Intention: Add user profile page\nConstraints: Next.js 14, TypeScript, Tailwind, server components only, no client state\nContext: Existing auth system uses NextAuth, user data in PostgreSQL"',
-      response: 'AbëONE: "I\'ll create a server component profile page that reads from your existing auth session and PostgreSQL schema. Here\'s the aligned implementation..." [Clean, validated code that fits your stack]',
-      context: '✅ Context provided. ✅ Constraints set. ✅ Clarity defined. AI aligns. You validate once. Done.'
-    }
+    insight: 'The key insight: Intelligence requires alignment. Context. Constraints. Clarity. Without these, even the smartest AI produces chaos. With them, you get convergence.'
   },
   {
     id: 'ultimate-10',
@@ -173,12 +159,7 @@ export const ultimateConvergenceSlides: SlideData[] = [
       'Correction — you adjust instructions or constraints',
       'Convergence — you stop when it meets your bar'
     ],
-    insight: 'Same loop for coding, docs, planning, communication. One pattern to rule them all. Simple. Elegant. Transformative.',
-    example: {
-      prompt: '1️⃣ INTENTION: "Add dark mode toggle"\n2️⃣ CONSTRAINT: "React, TypeScript, localStorage, no external libs"\n3️⃣ RECURSION: AbëONE generates 3 variants\n4️⃣ VALIDATION: Run phantom detector → catches 1 undefined\n5️⃣ CORRECTION: "Fix undefined, use useLocalStorage hook"\n6️⃣ CONVERGENCE: ✅ Passes validation. Meets your bar. Done.',
-      response: 'One loop. Six steps. Same pattern every time. No chaos. Just convergence.',
-      context: 'This is the pattern. This is how you guide AI. This is transformation.'
-    }
+    insight: 'Same loop for coding, docs, planning, communication. One pattern to rule them all. Simple. Elegant. Transformative.'
   },
   {
     id: 'ultimate-14',
@@ -186,12 +167,7 @@ export const ultimateConvergenceSlides: SlideData[] = [
     title: 'From Chatting to {gold}Guiding{/gold}',
     subtitle: 'One Goal • One Loop • One Source of Truth',
     body: 'Walk through a real dev task: "Add feature X behind a flag." You write intention + constraints first. You keep a single source-of-truth message. Every AI call references that spec—no wandering. Contrast with chaos: many unrelated prompts, partial context, endless backtracking.',
-    insight: 'YAGNI: no agents, no complex orchestration—just one clean loop. Simple. Powerful. Transformative.',
-    example: {
-      prompt: '❌ CHATTING: "Add feature flag" → "What feature?" → "User dashboard" → "What flag lib?" → "LaunchDarkly" → "We use PostHog" → [Backtracking, confusion]\n\n✅ GUIDING: "Intention: Add feature flag for user dashboard\nConstraints: PostHog, Next.js, server components\nSource of truth: [This message]\n\nAbëONE: [Generates aligned implementation]\n\nYou: "Reference source of truth. Add flag check here."\nAbëONE: [Updates code, references same spec]"',
-      response: 'One source of truth. Every interaction references it. No wandering. No backtracking. Just convergence.',
-      context: 'This is the difference between chatting and guiding. This is the transformation.'
-    }
+    insight: 'YAGNI: no agents, no complex orchestration—just one clean loop. Simple. Powerful. Transformative.'
   },
   {
     id: 'ultimate-15',
@@ -206,12 +182,7 @@ export const ultimateConvergenceSlides: SlideData[] = [
       'Validate quickly (read, run tests, sanity-check)',
       'Correct and run one more iteration'
     ],
-    insight: 'This is your reciprocity trigger—a tangible win during this session. You\'re not just learning; you\'re doing. You\'re transforming.',
-    example: {
-      prompt: 'You: "Intention: Refactor this function to be more readable\nConstraints: Keep same behavior, TypeScript, no external deps, max 20 lines\n\n[Paste function]\n\nAbëONE: [Generates refactored version]\n\nYou: [Reads code] "Looks good, but add JSDoc comments"\n\nAbëONE: [Adds comments]\n\nYou: ✅ Validation passed. Meets my bar. Done."',
-      response: 'One cycle. One pattern. Notice how different this feels from your usual AI interaction. This is convergence.',
-      context: 'You just experienced the pattern. You felt the difference. This is transformation.'
-    }
+    insight: 'This is your reciprocity trigger—a tangible win during this session. You\'re not just learning; you\'re doing. You\'re transforming.'
   },
   {
     id: 'ultimate-16',
@@ -235,12 +206,7 @@ export const ultimateConvergenceSlides: SlideData[] = [
         body: 'Generates test cases to validate AI code meets your requirements' 
       }
     ],
-    insight: 'Three scripts. One purpose: catch failures before production. MIT licensed. Open source. Free forever. This is the validation step made real.',
-    example: {
-      prompt: 'You: "AbëONE generated this code. Validate it."\n\n[Run phantom-detector.js]\n✅ No undefined variables\n✅ All imports resolved\n✅ No broken references\n\n[Run security-scanner.js]\n⚠️ Found: Hardcoded API key on line 42\n\nYou: "Fix the security issue"\nAbëONE: [Fixes it]\n\n[Re-run security-scanner.js]\n✅ No security issues\n\nDone. 2 minutes. Production-ready.',
-      response: 'This is validation. This is what catches failures before production. This is what saves you 30+ hours/month.',
-      context: 'Three scripts. Fast validation. Zero dependencies. 12 months tested. This is what you get.'
-    }
+    insight: 'Three scripts. One purpose: catch failures before production. MIT licensed. Open source. Free forever. This is the validation step made real.'
   },
   {
     id: 'ultimate-17',
@@ -264,12 +230,7 @@ export const ultimateConvergenceSlides: SlideData[] = [
     title: '{gold}12 Months Validated{/gold}',
     subtitle: 'Dozens of Reports. Thousands of Samples. Extraordinary Results.',
     body: 'We tested and refined the Convergence Loop + Validation Toolkit over 12 months across thousands of AI-generated code samples from real production projects. Dozens of validation reports document the results. This isn\'t theoretical. It\'s battle-tested.',
-    insight: 'The proof is in the validation. 12 months. Dozens of reports. Thousands of samples. Real results. Extraordinary outcomes. This is credible. This is trustworthy.',
-    example: {
-      prompt: 'Validation Report #47:\n• 1,247 code samples tested\n• 892 caught before production (71%)\n• Average time saved: 2.3 hours per sample\n• Security issues prevented: 156\n• Phantom bugs caught: 423\n\nResult: $18,000/year saved per developer\n\nThis is real. This is validated. This is what you get.',
-      response: '12 months. Dozens of reports. Thousands of samples. Extraordinary results. This isn\'t theory. It\'s battle-tested. It\'s proven. It works.',
-      context: 'You\'re not buying promises. You\'re buying proof. 12 months validated. This is transformation. This is convergence.'
-    }
+    insight: 'The proof is in the validation. 12 months. Dozens of reports. Thousands of samples. Real results. Extraordinary outcomes. This is credible. This is trustworthy.'
   },
   {
     id: 'ultimate-20',
@@ -277,12 +238,7 @@ export const ultimateConvergenceSlides: SlideData[] = [
     title: 'Save {gold}30+ Hours{/gold} Per Month',
     subtitle: '30× ROI Year 1. Pays for Itself in Week 1.',
     body: 'If you\'re losing 40+ hours/month debugging AI failures, the Convergence Loop + Toolkit saves you 30+ hours/month. At $50/hour, that\'s $1,500/month saved. $18,000/year. 30× ROI on a $497 investment.',
-    insight: 'The math is simple: 30 hours saved × $50/hour × 12 months = $18,000/year saved. The investment pays for itself in the first week. This is a no-brainer.',
-    example: {
-      prompt: 'Before: "Create auth system" → 2 hours debugging → Bugs in production → 3 hours fixing → Total: 5 hours\n\nAfter: "Intention + Constraints + Validation" → 15 minutes → ✅ Works first time → Total: 15 minutes',
-      response: 'Time saved: 4 hours 45 minutes per task. × 6 tasks/month = 30+ hours/month saved. × $50/hour = $1,500/month = $18,000/year.',
-      context: 'This is real. This is validated. This is what you get. $497 investment. $18,000 saved. 30× ROI.'
-    }
+    insight: 'The math is simple: 30 hours saved × $50/hour × 12 months = $18,000/year saved. The investment pays for itself in the first week. This is a no-brainer.'
   },
   {
     id: 'ultimate-21',
@@ -349,18 +305,11 @@ export const ultimateConvergenceSlides: SlideData[] = [
     boxes: [
       { label: '01', title: 'Weekly Live Sessions', body: 'Short, focused walkthroughs of applying the loop to common dev scenarios' },
       { label: '02', title: 'Hands-On Clinics', body: 'Bring your actual tasks—we co-guide AI together' },
-      { label: '03', title: 'Templates & Checklists', body: 'Minimal, YAGNI-compliant artifacts for specs and constraints' },
-      { label: '04', title: 'Private Community', body: 'Share patterns, edge cases, and wins without noise' },
-      { label: '05', title: '47-Page Methodology Guide', body: 'Complete reference guide to the Convergence Loop pattern' },
-      { label: '06', title: '3-Step Integration Checklist', body: 'Quick-start implementation guide for your workflow' },
-      { label: '07', title: 'Validation Toolkit Access', body: 'MIT-licensed open-source toolkit for validating AI code output' }
+      { label: '03', title: '47-Page Methodology Guide', body: 'Complete reference guide to the Convergence Loop pattern' },
+      { label: '04', title: '3-Step Integration Checklist', body: 'Quick-start implementation guide for your workflow' },
+      { label: '05', title: 'Validation Toolkit Access', body: 'MIT-licensed open-source toolkit for validating AI code output' }
     ],
-    insight: 'Faster outcome, higher likelihood of success, lower time delay and cognitive load. Value via constraint, not volume. YAGNI-compliant.',
-    example: {
-      prompt: 'You get:\n✅ The Pattern (Convergence Loop)\n✅ The Toolkit (3 validation scripts)\n✅ The Guide (47-page methodology)\n✅ The Checklist (3-step integration)\n✅ The Support (30 days live sessions + clinics)\n✅ The Community (private, focused)\n✅ The Guards (YAGNI × JØHN × AEYON × META)\n\nYou don\'t get:\n❌ Bloat\n❌ Hype\n❌ Complexity\n❌ Unnecessary features',
-      response: 'Everything you need. Nothing you don\'t. YAGNI-approved. JØHN-validated. AEYON-executed. META-unified.',
-      context: 'This is the complete system. This is transformation. This is convergence. $497. One-time. Yours forever.'
-    }
+    insight: 'Faster outcome, higher likelihood of success, lower time delay and cognitive load. Value via constraint, not volume. YAGNI-compliant.'
   },
   {
     id: 'ultimate-26b',
@@ -389,19 +338,14 @@ export const ultimateConvergenceSlides: SlideData[] = [
         body: 'One pattern throughout. Consistent structure. Unified approach. You get clarity, not confusion. Same loop for coding, docs, planning. One pattern. One transformation.' 
       }
     ],
-    insight: 'These aren\'t buzzwords. They\'re operational principles that guarantee perfect execution. YAGNI keeps it simple. JØHN keeps it true. AEYON keeps it complete. META keeps it unified. Together, they create transformation. This is what you\'re getting. This is why it works.',
-    example: {
-      prompt: 'YAGNI: "Do we need complex agent orchestration?" → No. Just the loop.\nJØHN: "Can we prove this saves 30+ hours/month?" → Yes. 12 months validated.\nAEYON: "Is every step complete?" → Yes. Pattern + Toolkit + Guide + Support.\nMETA: "Is the pattern consistent?" → Yes. One loop. Everywhere.',
-      response: 'Four guards. Four principles. One guarantee: Perfect execution. This is what makes the Convergence Loop work. This is what you\'re getting.',
-      context: 'You\'re not buying a course. You\'re buying a system backed by four operational principles. This is transformation. This is convergence.'
-    }
+    insight: 'These aren\'t buzzwords. They\'re operational principles that guarantee perfect execution. YAGNI keeps it simple. JØHN keeps it true. AEYON keeps it complete. META keeps it unified. Together, they create transformation. This is what you\'re getting. This is why it works.'
   },
   {
     id: 'ultimate-27',
     phase: 'EXECUTE',
     title: '{gold}$497{/gold}. One-Time. Yours Forever.',
     subtitle: 'No Subscription • No Monthly Fees • 60-Day Guarantee',
-    body: 'This is Convergence Sprint methodology—a one-time investment. No recurring fees. No subscriptions. Not AI Guardian Suite ($99/month for ongoing AI safety services). The pattern, toolkit, guide, checklist, and 30 days of support. Yours forever. Plus 60-day money-back guarantee. Risk-free. Compare to: 1 month of trial/error (40+ hours), hiring a consultant ($150+/hr), or team training ($5K+).',
+    body: 'One-time investment. No recurring fees. No subscriptions. The pattern, toolkit, guide, checklist, and 30 days of support. Yours forever. Plus 60-day money-back guarantee. Risk-free.',
     insight: 'Make it crystal clear: This is one-time methodology, not monthly subscription. This is Convergence Sprint (pattern implementation), not AI Guardian Suite (ongoing AI safety services). Different products. Different pricing. Different purposes. Use Sprint to master the pattern. Use Guardian for ongoing protection.',
   },
   {
