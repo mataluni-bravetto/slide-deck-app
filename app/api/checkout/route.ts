@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
     })
 
     const stripe = new Stripe(config.secretKey, {
-      apiVersion: '2024-11-20.acacia',
+      apiVersion: '2024-11-20.acacia' as any, // Type assertion needed due to Stripe SDK type definitions
       maxNetworkRetries: 0, // Disable retries to see actual error immediately
     })
 
