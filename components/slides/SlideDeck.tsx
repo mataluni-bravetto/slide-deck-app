@@ -83,12 +83,12 @@ export function SlideDeck({ slides, startAt = 0 }: SlideDeckProps) {
       {/* Slide Content */}
       <div className="w-full max-w-[1200px] max-h-[90vh] p-[60px_80px] flex flex-col relative box-border overflow-y-auto">
         {slide.phase && (
-          <div className="absolute top-10 right-20 text-[11px] font-semibold tracking-[0.2em] text-[#C9A227] uppercase z-20">
+          <div className="absolute top-10 right-20 text-[11px] font-semibold tracking-[0.2em] text-[#C9A227] uppercase">
             {slide.phase}
           </div>
         )}
 
-        <div className="flex flex-col justify-start pt-8 min-h-0 relative z-10">
+        <div className="flex flex-col justify-start pt-8 min-h-0">
           {slide.preTitle && (
             <p className="text-sm text-[#888888] mb-3 italic tracking-[0.02em]">{slide.preTitle}</p>
           )}
@@ -175,17 +175,16 @@ export function SlideDeck({ slides, startAt = 0 }: SlideDeckProps) {
             </div>
           )}
           {slide.content && <div className="w-full">{slide.content}</div>}
+          {slide.insight && (
+            <div className="border-l-[3px] border-[#C9A227] bg-[#111111] p-5 mt-8 mb-4 break-words">
+              <div className="text-[10px] font-bold tracking-[0.2em] text-[#C9A227] mb-2 uppercase">KEY INSIGHT</div>
+              <div className="text-[15px] leading-[1.6] text-[#AAAAAA] break-words">{slide.insight}</div>
+            </div>
+          )}
           {slide.footer && (
             <p className="text-base text-[#666666] text-center italic mt-auto pt-6">{slide.footer}</p>
           )}
         </div>
-
-        {slide.insight && (
-          <div className="border-l-[3px] border-[#C9A227] bg-[#111111] p-5 mt-8 mb-4 break-words">
-            <div className="text-[10px] font-bold tracking-[0.2em] text-[#C9A227] mb-2 uppercase">KEY INSIGHT</div>
-            <div className="text-[15px] leading-[1.6] text-[#AAAAAA] break-words">{slide.insight}</div>
-          </div>
-        )}
       </div>
     </div>
   )
