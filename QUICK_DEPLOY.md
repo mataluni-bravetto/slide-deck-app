@@ -18,13 +18,13 @@ git push origin main
 
 **Copy from:** `VERCEL_ENV_VARS_COPY_PASTE.txt` (7 variables)
 
-**Or paste these:**
+**Or add manually (get values from Stripe Dashboard or `VERCEL_ENV_VARS_COPY_PASTE.txt`):**
 ```
 STRIPE_PUBLISHABLE_KEY=pk_live_YOUR_PUBLISHABLE_KEY_HERE
 STRIPE_SECRET_KEY=sk_live_YOUR_SECRET_KEY_HERE
-STRIPE_PRICE_ID=price_1Saj26L7UMRowhrwLH0m3DFY
-STRIPE_PRODUCT_ID=prod_TXofSfF8HV7Kqd
-STRIPE_PRICING_TABLE_ID=prctbl_1SLQHXL7UMRowhrweaG2evT3
+STRIPE_PRICE_ID=price_YOUR_PRICE_ID_HERE
+STRIPE_PRODUCT_ID=prod_YOUR_PRODUCT_ID_HERE
+STRIPE_PRICING_TABLE_ID=prctbl_YOUR_PRICING_TABLE_ID_HERE
 STRIPE_SUCCESS_URL=https://aiguardian.ai/convergence-purchase/success
 STRIPE_CANCEL_URL=https://aiguardian.ai/convergence-purchase
 ```
