@@ -78,13 +78,38 @@ for domain_line in $DOMAINS; do
     if [ "$DNS_SUCCESS" = "true" ]; then
         echo "  ✅ DNS record added"
     else
-        echo "  ⚠️  DNS record may have failed"
+        ERROR_MSG=$(echo "$DNS_RESPONSE" | jq -r '.errors[0].message // "Unknown error"' 2>/dev/null)
+        echo "  ❌ DNS record failed: $ERROR_MSG"
+        FAILED=$((FAILED + 1))
+        continue
     fi
     
     # Step 4: Update nameservers at Namecheap (if domain exists)
-    echo "  → Updating nameservers at Namecheap..."
-    # Note: This requires domain to already exist at Namecheap
-    # For new registrations, use Namecheap API domain registration endpoint
+    if [ -n "$NAMECHEAP_API_USER" ] && [ -n "$NAMECHEAP_API_KEY" ]; then
+        echo "  → Updating nameservers at Namecheap..."
+        # Extract SLD and TLD from domain
+        SLD=$(echo "$domain" | cut -d'.' -f1)
+        TLD=$(echo "$domain" | cut -d'.' -f2-)
+        
+        # Namecheap API: Update nameservers
+        NC_RESPONSE=$(curl -s "https://api.namecheap.com/xml.response?ApiUser=$NAMECHEAP_API_USER&ApiKey=$NAMECHEAP_API_KEY&UserName=$NAMECHEAP_API_USER&Command=namecheap.domains.dns.setHosts&SLD=$SLD&TLD=$TLD&Nameservers=$NS1,$NS2&ClientIp=$NAMECHEAP_IP" 2>&1)
+        
+        if echo "$NC_RESPONSE" | grep -q "ERROR"; then
+            echo "  ⚠️  Namecheap nameserver update failed (domain may not exist at Namecheap)"
+        else
+            echo "  ✅ Nameservers updated at Namecheap"
+        fi
+    fi
+    
+    # Step 5: Configure Worker route (if needed)
+    if [ "$worker_route" = "true" ]; then
+        echo "  → Configuring Worker route..."
+        WORKER_PATTERN=$(jq -r ".[] | select(.domain == \"$domain\") | .worker_pattern // \"*$domain/convergence-*\"" "$DOMAIN_LIST")
+        
+        # Note: Worker route creation requires wrangler CLI or Cloudflare API
+        # For now, log the pattern - can be configured manually or via API
+        echo "  ℹ️  Worker pattern: $WORKER_PATTERN (configure manually or via API)"
+    fi
     
     SUCCESS=$((SUCCESS + 1))
     echo "  ✅ Domain configured: $domain"

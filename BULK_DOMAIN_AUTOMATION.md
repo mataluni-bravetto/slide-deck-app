@@ -68,13 +68,11 @@
 
 ---
 
-## 🛠️ SCRIPTS NEEDED
+## 🛠️ SCRIPTS CREATED
 
-1. `bulk-register-domains.sh` - Namecheap domain registration
-2. `bulk-create-cloudflare-zones.sh` - Cloudflare zone creation
-3. `bulk-update-nameservers.sh` - Update nameservers at Namecheap
-4. `bulk-configure-dns.sh` - Configure DNS records
-5. `bulk-deploy-workflow.sh` - Complete automation workflow
+1. `setup-bulk-automation.sh` - API credentials setup
+2. `bulk-deploy-workflow.sh` - Complete automation workflow (zones + DNS + nameservers)
+3. `bulk-namecheap-register.sh` - Update nameservers at Namecheap (standalone)
 
 ---
 
