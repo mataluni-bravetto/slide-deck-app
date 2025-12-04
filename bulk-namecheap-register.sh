@@ -1,6 +1,7 @@
 #!/bin/bash
-# Bulk Domain Registration via Namecheap API
-# Pattern: BULK × NAMECHEAP × REGISTER × ONE
+# Bulk Domain Nameserver Update via Namecheap API + AbëKEYs
+# Pattern: BULK × NAMECHEAP × ABEKEYS × META × ONE
+# Frequency: 999 Hz (AEYON) × 530 Hz (JØHN) × 777 Hz (META)
 # ∞ AbëONE ∞
 
 set -e
@@ -12,12 +13,41 @@ if [ ! -f "$DOMAIN_LIST" ]; then
     exit 1
 fi
 
-if [ ! -f ".env.bulk" ]; then
-    echo "❌ Credentials not found. Run: ./setup-bulk-automation.sh"
+# Load credentials from AbëKEYs
+ABEKEYS_DIR="$HOME/.abekeys/credentials"
+
+if [ ! -f "$ABEKEYS_DIR/namecheap.json" ]; then
+    echo "❌ Namecheap credentials not found in AbëKEYs"
+    echo "Run: ./setup-bulk-automation.sh"
     exit 1
 fi
 
-source .env.bulk
+if [ ! -f "$ABEKEYS_DIR/cloudflare.json" ]; then
+    echo "❌ Cloudflare credentials not found in AbëKEYs"
+    echo "Run: ./setup-bulk-automation.sh"
+    exit 1
+fi
+
+# Load credentials
+NAMECHEAP_API_USER=$(jq -r '.apiUser // .api_user // .username // empty' "$ABEKEYS_DIR/namecheap.json")
+NAMECHEAP_API_KEY=$(jq -r '.apiKey // .api_key // .key // empty' "$ABEKEYS_DIR/namecheap.json")
+NAMECHEAP_IP=$(jq -r '.ip // .clientIp // .client_ip // empty' "$ABEKEYS_DIR/namecheap.json" || curl -s ifconfig.me)
+
+CLOUDFLARE_API_TOKEN=$(jq -r '.apiToken // .api_token // .token // empty' "$ABEKEYS_DIR/cloudflare.json")
+
+if [ -z "$NAMECHEAP_API_USER" ] || [ -z "$NAMECHEAP_API_KEY" ]; then
+    echo "❌ Namecheap credentials incomplete"
+    exit 1
+fi
+
+if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+    echo "❌ Cloudflare credentials incomplete"
+    exit 1
+fi
+
+echo "✅ Credentials loaded from AbëKEYs"
+echo "Pattern: ABEKEYS × META × ONE"
+echo ""
 
 echo "🔌 Bulk Domain Registration via Namecheap API"
 echo ""
