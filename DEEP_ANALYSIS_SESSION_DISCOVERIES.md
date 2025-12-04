@@ -92,11 +92,11 @@ AbëKEYs Vault (~/.abekeys/credentials/stripe.json)
 
 #### 2.3 Current Stripe Values
 **Discovered Values:**
-- **Publishable Key:** `pk_live_YOUR_PUBLISHABLE_KEY_HERE`
-- **Secret Key:** `sk_live_YOUR_SECRET_KEY_HERE`
-- **Price ID:** `price_1Saj26L7UMRowhrwLH0m3DFY`
-- **Product ID:** `prod_TXofSfF8HV7Kqd`
-- **Pricing Table ID:** `prctbl_1SLQHXL7UMRowhrweaG2evT3` (NEW - not in original setup)
+- **Publishable Key:** `pk_live_YOUR_PUBLISHABLE_KEY_HERE` (get from Stripe Dashboard)
+- **Secret Key:** `sk_live_YOUR_SECRET_KEY_HERE` (get from Stripe Dashboard - NEVER commit)
+- **Price ID:** `price_YOUR_PRICE_ID_HERE` (get from Stripe Dashboard)
+- **Product ID:** `prod_YOUR_PRODUCT_ID_HERE` (get from Stripe Dashboard)
+- **Pricing Table ID:** `prctbl_YOUR_PRICING_TABLE_ID_HERE` (get from Stripe Dashboard)
 
 **Discovery:** Pricing Table ID suggests using Stripe Pricing Tables feature, not just Checkout Sessions.
 
