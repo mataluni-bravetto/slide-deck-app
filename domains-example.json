@@ -1,0 +1,16 @@
+[
+  {
+    "domain": "example1.ai",
+    "ip_address": "104.21.69.175",
+    "worker_route": true,
+    "worker_pattern": "*example1.ai/convergence-*",
+    "vercel_url": "https://slide-deck-app-ten.vercel.app"
+  },
+  {
+    "domain": "example2.ai",
+    "ip_address": "104.21.69.175",
+    "worker_route": false,
+    "vercel_url": null
+  }
+]
+
