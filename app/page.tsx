@@ -16,5 +16,11 @@ import { SlideDeck } from '@/components/slides'
 import { ultimateConvergenceSlides } from '@/lib/slides/ultimateConvergenceSlides'
 
 export default function HomePage() {
-  return <SlideDeck slides={ultimateConvergenceSlides} />
+  return (
+    <SlideDeck 
+      slides={ultimateConvergenceSlides}
+      logoPath="/brand/AI-Image-Editor-2025-12-04_10-01-06.png"
+      showLogo={true}
+    />
+  )
 }

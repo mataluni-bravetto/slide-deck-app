@@ -15,6 +15,8 @@ import type { SlideData } from './types'
 export interface SlideDeckProps {
   slides: SlideData[]
   startAt?: number
+  logoPath?: string // Optional logo path (e.g., '/bravetto-logo.svg')
+  showLogo?: boolean // Toggle logo visibility (default: true if logoPath provided)
 }
 
 // Parse {gold}text{/gold} syntax
@@ -30,7 +32,7 @@ function parseGoldText(text: string | ReactNode): ReactNode {
   })
 }
 
-export function SlideDeck({ slides, startAt = 0 }: SlideDeckProps) {
+export function SlideDeck({ slides, startAt = 0, logoPath, showLogo = true }: SlideDeckProps) {
   const [currentSlide, setCurrentSlide] = useState(startAt)
 
   // Keyboard navigation
@@ -82,6 +84,18 @@ export function SlideDeck({ slides, startAt = 0 }: SlideDeckProps) {
 
       {/* Slide Content */}
       <div className="w-full max-w-[1200px] max-h-[90vh] p-[60px_80px] flex flex-col relative box-border overflow-y-auto">
+        {/* Bravëtto Logo - Top Left */}
+        {logoPath && showLogo && (
+          <div className="absolute top-10 left-20 z-10">
+            <img 
+              src={logoPath} 
+              alt="Bravëtto" 
+              className="h-8 w-auto"
+              style={{ maxWidth: '200px' }}
+            />
+          </div>
+        )}
+        
         {slide.phase && (
           <div className="absolute top-10 right-20 text-[11px] font-semibold tracking-[0.2em] text-[#C9A227] uppercase">
             {slide.phase}
