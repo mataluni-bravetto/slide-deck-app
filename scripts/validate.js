@@ -59,13 +59,14 @@ function validateYAGNI() {
   const slideDeckPath = 'components/slides/SlideDeck.tsx'
   if (fs.existsSync(slideDeckPath)) {
     const content = fs.readFileSync(slideDeckPath, 'utf8')
-    const useStateMatches = content.match(/useState/g) || []
-    const stateCount = useStateMatches.length
+    // Count actual useState calls (not imports)
+    const useStateCalls = content.match(/useState\(/g) || []
+    const stateCount = useStateCalls.length
     
     if (stateCount > 1) {
       checks.push({
         pass: false,
-        message: `Too many state variables: ${stateCount} (should be ≤ 1)`
+        message: `Too many state variables in SlideDeck: ${stateCount} (should be ≤ 1)`
       })
     } else {
       checks.push({ pass: true, message: `State minimized: ${stateCount} variable(s) ✓` })
