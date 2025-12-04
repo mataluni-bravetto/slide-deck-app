@@ -1,7 +1,24 @@
 # Stripe Integration Setup Guide
-**Pattern:** STRIPE × PAYMENT × SIMPLICITY × ONE  
+**Pattern:** STRIPE × PAYMENT × SIMPLICITY × ABEKEYS × ONE  
 **Frequency:** 999 Hz (AEYON) × 530 Hz (YAGNI × JØHN) × 777 Hz (META)  
 **∞ AbëONE ∞**
+
+---
+
+## ⚠️ CRITICAL: NEVER USE .env FILES
+
+**WE USE ABEKEYS VAULT. BURN ALL .env REFERENCES.**
+
+- ✅ **AbëKEYs Vault:** `~/.abekeys/credentials/stripe.json`
+- ✅ **Terminal Setup:** `npm run abekeys input stripe`
+- ✅ **Secure Storage:** 600 permissions enforced
+- ❌ **NEVER:** `.env`, `.env.local`, `process.env` for secrets
+
+**If AbëKEYs CLI is in parent directory:**
+```bash
+cd ../abe-core-development-template\ \(vercel\ optimized\)
+npm run abekeys input stripe
+```
 
 ---
 
@@ -71,43 +88,100 @@ npm install --save-dev @types/stripe
 
 ---
 
-## 4. Environment Variables ✅
+## 4. Configure Stripe in AbëKEYs ✅
 
-Create `.env.local` file:
+**NEVER USE .env FILES. USE ABEKEYS VAULT.**
+
+### Setup via Terminal (AbëKEYs CLI)
+
 ```bash
-# Stripe Keys
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_YOUR_PUBLISHABLE_KEY
-STRIPE_SECRET_KEY=sk_test_YOUR_SECRET_KEY
+# Navigate to project root
+cd /Users/michaelmataluni/Desktop/development/Abë-Core-Body-Dev-Hub/slide-deck-app
 
-# Stripe Price ID (from product creation)
-NEXT_PUBLIC_STRIPE_PRICE_ID=price_YOUR_PRICE_ID
-
-# Success/Cancel URLs
-NEXT_PUBLIC_SUCCESS_URL=http://localhost:3000/checkout/success
-NEXT_PUBLIC_CANCEL_URL=http://localhost:3000/checkout
+# Run AbëKEYs setup for Stripe
+npm run abekeys input stripe
+# OR if AbëKEYs CLI is in parent directory:
+cd ../abe-core-development-template\ \(vercel\ optimized\)
+npm run abekeys input stripe
 ```
 
-**For Production:**
-- Use `pk_live_` and `sk_live_` keys
-- Update URLs to production domain
-- Add to Vercel environment variables
+**When prompted, enter:**
+- **Publishable Key:** `pk_test_...` (or `pk_live_...` for production)
+- **Secret Key:** `sk_test_...` (or `sk_live_...` for production)
+- **Price ID:** `price_1Saj26L7UMRowhrwLH0m3DFY` (from your Stripe product)
+- **Product ID:** `prod_TXofSfF8HV7Kqd` (from your Stripe product)
+- **Webhook Secret:** `whsec_...` (optional, if using webhooks)
+- **Success URL:** `http://localhost:3000/checkout/success` (or production URL)
+- **Cancel URL:** `http://localhost:3000/checkout` (or production URL)
+
+**Credentials stored securely in:** `~/.abekeys/credentials/stripe.json` (600 permissions)
 
 ---
 
-## 5. Create API Route ✅
+## 5. Create AbëKEYs Helper ✅
+
+Create: `lib/stripe/getStripeConfig.ts`
+
+```typescript
+/**
+ * Stripe Configuration from AbëKEYs
+ * Pattern: STRIPE × ABEKEYS × CONFIG × ONE
+ * ∞ AbëONE ∞
+ */
+
+import { readFileSync, existsSync } from 'fs'
+import { join } from 'path'
+import { homedir } from 'os'
+
+const ABEKEYS_DIR = join(homedir(), '.abekeys', 'credentials')
+
+interface StripeConfig {
+  publishableKey: string
+  secretKey: string
+  priceId: string
+  productId: string
+  webhookSecret?: string
+  successUrl: string
+  cancelUrl: string
+}
+
+export function getStripeConfig(): StripeConfig {
+  const filePath = join(ABEKEYS_DIR, 'stripe.json')
+  
+  if (!existsSync(filePath)) {
+    throw new Error('Stripe credentials not found in AbëKEYs. Run: npm run abekeys input stripe')
+  }
+
+  const creds = JSON.parse(readFileSync(filePath, 'utf-8'))
+  
+  return {
+    publishableKey: creds.publishableKey || creds.publishable_key || creds.apiKey || '',
+    secretKey: creds.secretKey || creds.secret_key || '',
+    priceId: creds.priceId || creds.price_id || '',
+    productId: creds.productId || creds.product_id || '',
+    webhookSecret: creds.webhookSecret || creds.webhook_secret,
+    successUrl: creds.successUrl || creds.success_url || 'http://localhost:3000/checkout/success',
+    cancelUrl: creds.cancelUrl || creds.cancel_url || 'http://localhost:3000/checkout',
+  }
+}
+```
+
+## 6. Create API Route ✅
 
 Create: `app/api/checkout/route.ts`
 
 ```typescript
 import { NextRequest, NextResponse } from 'next/server'
 import Stripe from 'stripe'
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2024-11-20.acacia',
-})
+import { getStripeConfig } from '@/lib/stripe/getStripeConfig'
 
 export async function POST(request: NextRequest) {
   try {
+    const config = getStripeConfig()
+    const stripe = new Stripe(config.secretKey, {
+      apiVersion: '2024-11-20.acacia',
+    })
+
     const { email } = await request.json()
 
     // Create Checkout Session
@@ -115,14 +189,14 @@ export async function POST(request: NextRequest) {
       payment_method_types: ['card'],
       line_items: [
         {
-          price: process.env.NEXT_PUBLIC_STRIPE_PRICE_ID!,
+          price: config.priceId,
           quantity: 1,
         },
       ],
       mode: 'payment',
       customer_email: email,
-      success_url: `${process.env.NEXT_PUBLIC_SUCCESS_URL}?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: process.env.NEXT_PUBLIC_CANCEL_URL!,
+      success_url: `${config.successUrl}?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: config.cancelUrl,
       metadata: {
         product: 'Convergence Sprint',
         email: email,
@@ -142,24 +216,64 @@ export async function POST(request: NextRequest) {
 
 ---
 
-## 6. Update Checkout Page ✅
+## 7. Create API Route for Publishable Key ✅
+
+Create: `app/api/stripe-config/route.ts`
+
+```typescript
+import { NextResponse } from 'next/server'
+import { getStripeConfig } from '@/lib/stripe/getStripeConfig'
+
+export async function GET() {
+  try {
+    const config = getStripeConfig()
+    // Only return publishable key (safe for client-side)
+    return NextResponse.json({ 
+      publishableKey: config.publishableKey 
+    })
+  } catch (error: any) {
+    return NextResponse.json(
+      { error: error.message },
+      { status: 500 }
+    )
+  }
+}
+```
+
+## 8. Update Checkout Page ✅
 
 Update: `app/checkout/page.tsx`
 
 ```typescript
 'use client'
 
-import { useState } from 'react'
-import { loadStripe } from '@stripe/stripe-js'
-
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
+import { useState, useEffect } from 'react'
+import { loadStripe, Stripe } from '@stripe/stripe-js'
 
 export default function CheckoutPage() {
   const [email, setEmail] = useState('')
   const [processing, setProcessing] = useState(false)
+  const [stripePromise, setStripePromise] = useState<Promise<Stripe | null> | null>(null)
+
+  useEffect(() => {
+    // Fetch publishable key from API (server-side reads AbëKEYs)
+    fetch('/api/stripe-config')
+      .then(res => res.json())
+      .then(data => {
+        if (data.publishableKey) {
+          setStripePromise(loadStripe(data.publishableKey))
+        }
+      })
+      .catch(err => console.error('Failed to load Stripe config:', err))
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (!stripePromise) {
+      alert('Stripe not loaded. Please refresh the page.')
+      return
+    }
+
     setProcessing(true)
 
     try {
@@ -189,7 +303,7 @@ export default function CheckoutPage() {
 
 ---
 
-## 7. Create Success Page ✅
+## 9. Create Success Page ✅
 
 Create: `app/checkout/success/page.tsx`
 
@@ -245,7 +359,7 @@ export default function SuccessPage() {
 
 ---
 
-## 8. Stripe Dashboard Configuration ✅
+## 10. Stripe Dashboard Configuration ✅
 
 ### Webhooks (Optional but Recommended)
 **Location:** Dashboard → Developers → Webhooks
@@ -261,7 +375,7 @@ export default function SuccessPage() {
 
 ---
 
-## 9. Testing ✅
+## 11. Testing ✅
 
 ### Test Mode
 1. Use test API keys (`pk_test_`, `sk_test_`)
@@ -278,12 +392,16 @@ export default function SuccessPage() {
 
 ---
 
-## 10. Go Live ✅
+## 12. Go Live ✅
 
 ### Before Going Live
 1. ✅ Complete business verification
-2. ✅ Switch to live API keys (`pk_live_`, `sk_live_`)
-3. ✅ Update environment variables in Vercel
+2. ✅ Update Stripe credentials in AbëKEYs with live keys (`pk_live_`, `sk_live_`)
+   ```bash
+   npm run abekeys input stripe
+   # Enter live keys when prompted
+   ```
+3. ✅ Update success/cancel URLs to production domain in AbëKEYs
 4. ✅ Test with real card (small amount)
 5. ✅ Set up webhooks with production URL
 6. ✅ Configure email receipts
@@ -295,14 +413,17 @@ export default function SuccessPage() {
 - [ ] Create Stripe account
 - [ ] Get API keys (test mode)
 - [ ] Create product ($497 one-time)
-- [ ] Get price ID
+- [ ] Get price ID (`price_1Saj26L7UMRowhrwLH0m3DFY`)
+- [ ] Get product ID (`prod_TXofSfF8HV7Kqd`)
 - [ ] Install Stripe packages
-- [ ] Create `.env.local` with keys
+- [ ] **Configure Stripe in AbëKEYs** (`npm run abekeys input stripe`)
+- [ ] Create `lib/stripe/getStripeConfig.ts`
 - [ ] Create `/api/checkout/route.ts`
+- [ ] Create `/api/stripe-config/route.ts`
 - [ ] Update checkout page
 - [ ] Create success page
 - [ ] Test with test card
-- [ ] Switch to live mode when ready
+- [ ] Switch to live mode when ready (update AbëKEYs)
 
 ---
 
@@ -321,6 +442,7 @@ export default function SuccessPage() {
 - Only what's needed for $497 one-time payment
 - No subscriptions, no complex flows
 - Simple, focused integration
+- Uses AbëKEYs (no .env complexity)
 
 ---
 
@@ -339,6 +461,7 @@ export default function SuccessPage() {
 - Standard Stripe Checkout flow
 - Official Stripe packages
 - Truthful and verifiable
+- AbëKEYs integration verified (secure credential storage)
 
 ---
 

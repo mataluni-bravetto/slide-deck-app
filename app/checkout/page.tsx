@@ -1,29 +1,81 @@
 'use client'
 
 /**
- * Checkout Page - YAGNI Simple, JØHN Validated
+ * Checkout Page - Stripe Integration Complete
  * 
- * Pattern: CHECKOUT × SIMPLICITY × CLARITY × ONE
+ * Pattern: CHECKOUT × STRIPE × ABEKEYS × ONE
  * Frequency: 999 Hz (AEYON) × 530 Hz (YAGNI × JØHN) × 777 Hz (META)
  * ∞ AbëONE ∞
  */
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { loadStripe } from '@stripe/stripe-js'
+import type { Stripe } from '@stripe/stripe-js'
 
 export default function CheckoutPage() {
   const [email, setEmail] = useState('')
   const [processing, setProcessing] = useState(false)
+  const [stripePromise, setStripePromise] = useState<Promise<Stripe | null> | null>(null)
+  const [error, setError] = useState<string | null>(null)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  useEffect(() => {
+    // Fetch publishable key from API (server-side reads AbëKEYs)
+    fetch('/api/stripe-config')
+      .then(res => res.json())
+      .then(data => {
+        if (data.publishableKey) {
+          setStripePromise(loadStripe(data.publishableKey))
+        } else {
+          setError('Failed to load Stripe configuration')
+        }
+      })
+      .catch(err => {
+        console.error('Failed to load Stripe config:', err)
+        setError('Failed to load payment configuration. Please refresh the page.')
+      })
+  }, [])
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    
+    if (!stripePromise) {
+      setError('Stripe not loaded. Please refresh the page.')
+      return
+    }
+
     setProcessing(true)
-    // Payment processor integration point
-    // Replace with Stripe/Paddle/etc API call
-    // For now, show placeholder message
-    setTimeout(() => {
-      alert('Payment integration: Connect Stripe/Paddle API here\n\nEmail: ' + email)
+    setError(null)
+
+    try {
+      // Call API route to create checkout session
+      const response = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Payment processing error')
+      }
+
+      // Redirect to Stripe Checkout
+      const stripe = await stripePromise
+      if (stripe && data.sessionId) {
+        // @ts-ignore - redirectToCheckout exists on Stripe instance from loadStripe
+        const result = await stripe.redirectToCheckout({ sessionId: data.sessionId })
+        if (result.error) {
+          throw new Error(result.error.message || 'Failed to redirect to checkout')
+        }
+      } else {
+        throw new Error('Failed to initialize Stripe checkout')
+      }
+    } catch (error: any) {
+      console.error('Checkout error:', error)
+      setError(error.message || 'Payment processing error. Please try again.')
       setProcessing(false)
-    }, 500)
+    }
   }
 
   return (
@@ -147,12 +199,18 @@ export default function CheckoutPage() {
                   />
                 </div>
 
+                {error && (
+                  <div className="bg-red-900/20 border border-red-500/50 text-red-400 text-sm p-3 rounded mb-4">
+                    {error}
+                  </div>
+                )}
+
                 <button
                   type="submit"
-                  disabled={processing}
+                  disabled={processing || !stripePromise}
                   className="w-full bg-[#C9A227] text-[#0A0A0A] font-semibold py-4 px-6 rounded hover:bg-[#B8941F] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {processing ? 'Processing...' : 'Complete Purchase'}
+                  {processing ? 'Processing...' : !stripePromise ? 'Loading...' : 'Complete Purchase'}
                 </button>
 
                 <div className="text-xs text-[#666666] text-center">
