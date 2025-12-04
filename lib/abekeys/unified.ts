@@ -120,7 +120,7 @@ export function getNamecheapConfig(): NamecheapConfig {
     throw new Error('Namecheap credentials not found in AbëKEYs. Run: npm run abekeys input namecheap')
   }
 
-  let ip = creds.ip || creds.clientIp || creds.client_ip
+  let ip: string = creds.ip || creds.clientIp || creds.client_ip || ''
   if (!ip) {
     try {
       const { execSync } = require('child_process')
