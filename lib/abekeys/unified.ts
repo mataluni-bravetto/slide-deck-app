@@ -52,6 +52,40 @@ export interface StripeConfig {
 }
 
 export function getStripeConfig(): StripeConfig {
+  // EMERGENCE PATTERN: Hybrid System
+  // Production (Vercel): Use environment variables (server-side secure)
+  // Local Development: Use AbëKEYs vault (filesystem access)
+  // Pattern: HYBRID × EMERGENCE × ADAPTIVE × ONE
+  // ∞ AbëONE ∞
+  
+  const isProduction = process.env.VERCEL === '1' || process.env.NODE_ENV === 'production'
+  const baseUrl = isProduction 
+    ? 'https://aiguardian.ai' 
+    : (process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000')
+
+  // Try Vercel environment variables first (production)
+  if (isProduction) {
+    const fromEnv = {
+      secretKey: process.env.STRIPE_SECRET_KEY,
+      publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
+      priceId: process.env.STRIPE_PRICE_ID,
+      productId: process.env.STRIPE_PRODUCT_ID,
+      pricingTableId: process.env.STRIPE_PRICING_TABLE_ID,
+      webhookSecret: process.env.STRIPE_WEBHOOK_SECRET,
+      successUrl: process.env.STRIPE_SUCCESS_URL || `${baseUrl}/convergence-purchase/success`,
+      cancelUrl: process.env.STRIPE_CANCEL_URL || `${baseUrl}/convergence-purchase`,
+    }
+
+    // If env vars exist and are valid, use them
+    if (fromEnv.secretKey && fromEnv.publishableKey && fromEnv.priceId) {
+      return fromEnv as StripeConfig
+    }
+    
+    // If env vars missing in production, log warning but continue to fallback
+    console.warn('Vercel env vars incomplete, falling back to AbëKEYs vault')
+  }
+
+  // Fallback: AbëKEYs vault (local development or if env vars missing)
   const creds = getCredential<{
     publishableKey?: string
     publishable_key?: string
@@ -72,13 +106,8 @@ export function getStripeConfig(): StripeConfig {
   }>('stripe')
 
   if (!creds) {
-    throw new Error('Stripe credentials not found in AbëKEYs. Run: npm run abekeys input stripe')
+    throw new Error('Stripe credentials not found. In production, set Vercel env vars. In local, run: npm run abekeys input stripe')
   }
-
-  const isProduction = process.env.VERCEL === '1' || process.env.NODE_ENV === 'production'
-  const baseUrl = isProduction 
-    ? 'https://aiguardian.ai' 
-    : (process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000')
 
   return {
     publishableKey: creds.publishableKey || creds.publishable_key || '',
