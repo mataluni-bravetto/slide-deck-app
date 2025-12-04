@@ -25,26 +25,11 @@ export interface StripeConfig {
 }
 
 export function getStripeConfig(): StripeConfig {
-  // Production: Use Vercel environment variables (server-side secure, not .env files)
-  // Local: Use AbëKEYs vault
-  const isProduction = process.env.VERCEL === '1'
+  // YAGNI APPROVED: AbëKEYs vault as SINGLE SOURCE OF TRUTH
+  // UNIVERSAL SYSTEM: Works in ALL environments (local, Vercel, everywhere)
+  // Pattern: ABEKEYS × UNIVERSAL × ONE × TRUTH
+  // ∞ AbëONE ∞
   
-  if (isProduction) {
-    // Production: Read from Vercel environment variables
-    // These are secure server-side variables, not .env files
-    return {
-      publishableKey: process.env.STRIPE_PUBLISHABLE_KEY || '',
-      secretKey: process.env.STRIPE_SECRET_KEY || '',
-      priceId: process.env.STRIPE_PRICE_ID || '',
-      productId: process.env.STRIPE_PRODUCT_ID || '',
-      pricingTableId: process.env.STRIPE_PRICING_TABLE_ID,
-      webhookSecret: process.env.STRIPE_WEBHOOK_SECRET,
-      successUrl: process.env.STRIPE_SUCCESS_URL || 'https://aiguardian.ai/convergence-purchase/success',
-      cancelUrl: process.env.STRIPE_CANCEL_URL || 'https://aiguardian.ai/convergence-purchase',
-    }
-  }
-  
-  // Local: Read from AbëKEYs vault
   const filePath = join(ABEKEYS_DIR, 'stripe.json')
   
   if (!existsSync(filePath)) {
@@ -53,6 +38,12 @@ export function getStripeConfig(): StripeConfig {
 
   const creds = JSON.parse(readFileSync(filePath, 'utf-8'))
   
+  // Determine URLs based on environment
+  const isProduction = process.env.VERCEL === '1' || process.env.NODE_ENV === 'production'
+  const baseUrl = isProduction 
+    ? 'https://aiguardian.ai' 
+    : (process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000')
+  
   return {
     publishableKey: creds.publishableKey || creds.publishable_key || creds.apiKey || '',
     secretKey: creds.secretKey || creds.secret_key || '',
@@ -60,8 +51,8 @@ export function getStripeConfig(): StripeConfig {
     productId: creds.productId || creds.product_id || '',
     pricingTableId: creds.pricingTableId || creds.pricing_table_id || creds.pricingTableId,
     webhookSecret: creds.webhookSecret || creds.webhook_secret,
-    successUrl: creds.successUrl || creds.success_url || 'http://localhost:3000/convergence-purchase/success',
-    cancelUrl: creds.cancelUrl || creds.cancel_url || 'http://localhost:3000/convergence-purchase',
+    successUrl: creds.successUrl || creds.success_url || `${baseUrl}/convergence-purchase/success`,
+    cancelUrl: creds.cancelUrl || creds.cancel_url || `${baseUrl}/convergence-purchase`,
   }
 }
 
