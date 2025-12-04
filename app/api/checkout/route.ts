@@ -12,8 +12,26 @@ import { getStripeConfig } from '@/lib/stripe/getStripeConfig'
 export async function POST(request: NextRequest) {
   try {
     const config = getStripeConfig()
+    
+    // Validate config
+    if (!config.secretKey) {
+      console.error('Stripe secret key missing')
+      return NextResponse.json(
+        { error: 'Payment configuration error. Please contact support.' },
+        { status: 500 }
+      )
+    }
+    
+    if (!config.priceId) {
+      console.error('Stripe price ID missing')
+      return NextResponse.json(
+        { error: 'Product configuration error. Please contact support.' },
+        { status: 500 }
+      )
+    }
+
     const stripe = new Stripe(config.secretKey, {
-      apiVersion: '2025-11-17.clover',
+      apiVersion: '2024-11-20.acacia',
     })
 
     const { email } = await request.json()
@@ -47,8 +65,14 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ sessionId: session.id })
   } catch (error: any) {
     console.error('Stripe error:', error)
+    console.error('Error details:', {
+      message: error.message,
+      type: error.type,
+      code: error.code,
+      statusCode: error.statusCode,
+    })
     return NextResponse.json(
-      { error: error.message || 'Payment processing error' },
+      { error: error.message || 'Payment processing error. Please try again.' },
       { status: 500 }
     )
   }
