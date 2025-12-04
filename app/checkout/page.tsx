@@ -33,8 +33,8 @@ export default function CheckoutPage() {
         <img 
           src="/brand/AI-Image-Editor-2025-12-04_10-01-06.png" 
           alt="Bravëtto" 
-          className="h-8 w-auto"
-          style={{ maxWidth: '200px' }}
+          className="h-16 w-auto"
+          style={{ maxWidth: '400px' }}
         />
       </div>
 

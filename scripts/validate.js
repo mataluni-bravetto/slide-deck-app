@@ -205,13 +205,13 @@ function validateMETA() {
     })
   }
   
-  // Check 2: Unified entry point (META: consistent structure)
+  // Check 2: Single entry point (META: consistent structure)
   if (fs.existsSync('app/page.tsx')) {
     const content = fs.readFileSync('app/page.tsx', 'utf8')
-    if (content.includes('SlideDeck') && content.includes('decks')) {
-      checks.push({ pass: true, message: 'Unified entry point present ✓' })
+    if (content.includes('SlideDeck') && content.includes('ultimateConvergenceSlides')) {
+      checks.push({ pass: true, message: 'Single entry point present ✓' })
     } else {
-      checks.push({ pass: false, message: 'Unified entry point missing' })
+      checks.push({ pass: false, message: 'Single entry point missing' })
     }
   }
   

@@ -23,15 +23,18 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## Structure
 
-- `app/page.tsx` - Unified entry point with deck selection
+- `app/page.tsx` - Single entry point with slide deck
 - `components/slides/` - Slide deck component and types
-- `lib/slides/` - Slide data (unified, sales, methodology decks)
+- `lib/slides/` - Slide data (30-slide Guardian Convergence Loop deck)
 
-## Decks
+## Slide Deck
 
-- **Unified Convergence Deck** (30 slides) - Complete presentation
-- **Sales Convergence Deck** (10 slides) - Focused sales presentation
-- **Methodology Deck** (20 slides) - Core methodology
+- **Guardian Convergence Loop** (30 slides) - Complete presentation covering:
+  - CLARIFY: The Hidden Cost (Slides 1-8)
+  - ALIGN: The Reframe (Slides 9-12)
+  - CONVERGE: The Pattern (Slides 13-18)
+  - TRANSFORM: The Proof (Slides 19-24)
+  - EXECUTE: The Investment (Slides 25-30)
 
 ## Principles
 
@@ -54,3 +57,4 @@ MIT
 ---
 
 ∞ AbëONE ∞
+

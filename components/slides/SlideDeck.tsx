@@ -90,8 +90,8 @@ export function SlideDeck({ slides, startAt = 0, logoPath, showLogo = true }: Sl
             <img 
               src={logoPath} 
               alt="Bravëtto" 
-              className="h-8 w-auto"
-              style={{ maxWidth: '200px' }}
+              className="h-16 w-auto"
+              style={{ maxWidth: '400px' }}
             />
           </div>
         )}
@@ -112,7 +112,7 @@ export function SlideDeck({ slides, startAt = 0, logoPath, showLogo = true }: Sl
             </h1>
           )}
           {slide.subtitle && (
-            <p className="text-xl text-[#888888] mb-8 font-light break-words">{slide.subtitle}</p>
+            <p className="text-xl text-[#888888] mb-8 font-medium break-words">{slide.subtitle}</p>
           )}
           {slide.giant && (
             <div className="font-serif text-[56px] font-normal leading-[1.3] text-[#C9A227] text-center py-10">
@@ -137,7 +137,7 @@ export function SlideDeck({ slides, startAt = 0, logoPath, showLogo = true }: Sl
               <div className="flex-1 min-w-0">
                 <div className="text-[11px] font-semibold tracking-[0.15em] text-[#666666] mb-5 uppercase">AI EXCELS AT</div>
                 {slide.columns.left.map((item, i) => (
-                  <div key={i} className="text-base text-[#888888] mb-3 pl-4 border-l-2 border-[#333333] break-words">{item}</div>
+                  <div key={i} className="text-base text-[#CCCCCC] font-medium mb-3 pl-4 border-l-2 border-[#333333] break-words">{item}</div>
                 ))}
               </div>
               <div className="w-px bg-[#333333] self-stretch flex-shrink-0" />
@@ -155,7 +155,7 @@ export function SlideDeck({ slides, startAt = 0, logoPath, showLogo = true }: Sl
                 <div key={i} className="flex-[1_1_280px] min-w-[280px] max-w-full bg-[#1A1A1A] p-6 border-t-2 border-[#C9A227] break-words">
                   <div className="text-[11px] font-semibold tracking-[0.1em] text-[#C9A227] mb-2">{box.label}</div>
                   <div className="text-lg font-medium text-white mb-2 break-words">{box.title}</div>
-                  <div className="text-sm leading-[1.5] text-[#888888] break-words">{box.body}</div>
+                  <div className="text-sm leading-[1.5] text-[#CCCCCC] font-medium break-words">{box.body}</div>
                 </div>
               ))}
             </div>
