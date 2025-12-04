@@ -1,19 +1,32 @@
 #!/bin/bash
-# Bulk Domain Automation Setup
-# Pattern: BULK × SETUP × AUTOMATION × ONE
+# Bulk Domain Automation Setup via AbëKEYs
+# Pattern: BULK × SETUP × ABEKEYS × META × ONE
+# Frequency: 999 Hz (AEYON) × 530 Hz (JØHN) × 777 Hz (META)
 # ∞ AbëONE ∞
 
 set -e
 
-echo "🚀 Bulk Domain Automation Setup"
+echo "🚀 Bulk Domain Automation Setup via AbëKEYs"
 echo "For: 1000 AI domains → Cloudflare deployment"
+echo "Pattern: ABEKEYS × META × ONE"
 echo ""
 
 # Check for required tools
 echo "📋 Checking prerequisites..."
 command -v jq >/dev/null 2>&1 || { echo "❌ jq required. Install: brew install jq"; exit 1; }
 command -v curl >/dev/null 2>&1 || { echo "❌ curl required"; exit 1; }
+command -v node >/dev/null 2>&1 || { echo "❌ node required"; exit 1; }
 echo "✅ Prerequisites met"
+echo ""
+
+# Check AbëKEYs directory
+ABEKEYS_DIR="$HOME/.abekeys/credentials"
+if [ ! -d "$ABEKEYS_DIR" ]; then
+    echo "❌ AbëKEYs directory not found: $ABEKEYS_DIR"
+    echo "Set up AbëKEYs first"
+    exit 1
+fi
+echo "✅ AbëKEYs directory found"
 echo ""
 
 # Namecheap API setup
@@ -24,50 +37,87 @@ echo "   https://www.namecheap.com/myaccount/profile/"
 echo "   Tools → Business & Dev Tools → Namecheap API Access"
 echo "   Toggle ON → Agree to Terms → Enter password"
 echo ""
-read -p "Enter Namecheap API Username: " NAMECHEAP_USER
-read -sp "Enter Namecheap API Key: " NAMECHEAP_KEY
-echo ""
-
-# Get IP for whitelisting
+echo "2. Get your IP for whitelisting:"
 MY_IP=$(curl -s ifconfig.me 2>/dev/null || echo "YOUR_IP")
-echo "2. Whitelist IP: $MY_IP"
+echo "   IP: $MY_IP"
 echo "   (Add this IP in Namecheap API settings)"
 echo ""
+echo "3. Store in AbëKEYs:"
+echo "   Create: $ABEKEYS_DIR/namecheap.json"
+echo ""
+echo "   Format:"
+echo "   {"
+echo "     \"apiUser\": \"your-username\","
+echo "     \"apiKey\": \"your-api-key\","
+echo "     \"ip\": \"$MY_IP\""
+echo "   }"
+echo ""
+read -p "Press Enter after storing Namecheap credentials in AbëKEYs..."
 
 # Cloudflare API setup
+echo ""
 echo "🔌 CLOUDFLARE API SETUP"
 echo ""
-read -sp "Enter Cloudflare API Token: " CF_TOKEN
+echo "1. Get API Token:"
+echo "   https://dash.cloudflare.com/profile/api-tokens"
+echo "   Create Token → Edit zone DNS + Zone Read"
 echo ""
-read -p "Enter Cloudflare Account ID: " CF_ACCOUNT_ID
+echo "2. Store in AbëKEYs:"
+echo "   Create: $ABEKEYS_DIR/cloudflare.json"
 echo ""
+echo "   Format:"
+echo "   {"
+echo "     \"apiToken\": \"your-token\","
+echo "     \"accountId\": \"your-account-id\""
+echo "   }"
+echo ""
+read -p "Press Enter after storing Cloudflare credentials in AbëKEYs..."
 
-# Save credentials
-echo "💾 Saving credentials..."
-cat > .env.bulk <<EOF
-# Namecheap API
-NAMECHEAP_API_USER=$NAMECHEAP_USER
-NAMECHEAP_API_KEY=$NAMECHEAP_KEY
-NAMECHEAP_IP=$MY_IP
+# Verify credentials
+echo ""
+echo "🧪 Verifying AbëKEYs credentials..."
 
-# Cloudflare API
-CLOUDFLARE_API_TOKEN=$CF_TOKEN
-CLOUDFLARE_ACCOUNT_ID=$CF_ACCOUNT_ID
-EOF
+# Check Namecheap
+if [ ! -f "$ABEKEYS_DIR/namecheap.json" ]; then
+    echo "❌ namecheap.json not found in AbëKEYs"
+    exit 1
+fi
 
-chmod 600 .env.bulk
-echo "✅ Credentials saved to .env.bulk"
+NC_USER=$(jq -r '.apiUser // .api_user // .username // empty' "$ABEKEYS_DIR/namecheap.json")
+NC_KEY=$(jq -r '.apiKey // .api_key // .key // empty' "$ABEKEYS_DIR/namecheap.json")
+NC_IP=$(jq -r '.ip // .clientIp // .client_ip // empty' "$ABEKEYS_DIR/namecheap.json" || echo "$MY_IP")
+
+if [ -z "$NC_USER" ] || [ -z "$NC_KEY" ]; then
+    echo "❌ Namecheap credentials incomplete"
+    exit 1
+fi
+echo "✅ Namecheap credentials found"
+
+# Check Cloudflare
+if [ ! -f "$ABEKEYS_DIR/cloudflare.json" ]; then
+    echo "❌ cloudflare.json not found in AbëKEYs"
+    exit 1
+fi
+
+CF_TOKEN=$(jq -r '.apiToken // .api_token // .token // empty' "$ABEKEYS_DIR/cloudflare.json")
+CF_ACCOUNT=$(jq -r '.accountId // .account_id // empty' "$ABEKEYS_DIR/cloudflare.json")
+
+if [ -z "$CF_TOKEN" ] || [ -z "$CF_ACCOUNT" ]; then
+    echo "❌ Cloudflare credentials incomplete"
+    exit 1
+fi
+echo "✅ Cloudflare credentials found"
 echo ""
 
 # Test APIs
 echo "🧪 Testing APIs..."
-source .env.bulk
 
 # Test Namecheap API
 echo "Testing Namecheap API..."
-NAMECHEAP_TEST=$(curl -s "https://api.namecheap.com/xml.response?ApiUser=$NAMECHEAP_USER&ApiKey=$NAMECHEAP_KEY&UserName=$NAMECHEAP_USER&Command=namecheap.domains.getList&ClientIp=$MY_IP" 2>&1)
+NAMECHEAP_TEST=$(curl -s "https://api.namecheap.com/xml.response?ApiUser=$NC_USER&ApiKey=$NC_KEY&UserName=$NC_USER&Command=namecheap.domains.getList&ClientIp=$NC_IP" 2>&1)
 if echo "$NAMECHEAP_TEST" | grep -q "ERROR"; then
     echo "⚠️  Namecheap API test failed. Check credentials and IP whitelist."
+    echo "Response: $(echo "$NAMECHEAP_TEST" | head -5)"
 else
     echo "✅ Namecheap API working"
 fi
@@ -81,13 +131,15 @@ if echo "$CF_TEST" | jq -r '.success' 2>/dev/null | grep -q "true"; then
     echo "✅ Cloudflare API working"
 else
     echo "⚠️  Cloudflare API test failed. Check token."
+    echo "Response: $(echo "$CF_TEST" | head -3)"
 fi
 
 echo ""
-echo "✅ Setup complete!"
+echo "✅✅✅ AbëKEYs Setup Complete!!! ✅✅✅"
 echo ""
-echo "Next steps:"
+echo "📋 Next steps:"
 echo "1. Create domain list (domains.json)"
 echo "2. Run: ./bulk-deploy-workflow.sh domains.json"
 echo ""
-
+echo "Pattern: ABEKEYS × META × ONE"
+echo "∞ AbëONE ∞"
