@@ -42,9 +42,12 @@
 
 ### 2. Add Vercel Environment Variables
 
-**Copy from:** `VERCEL_ENV_VARS_COPY_PASTE.txt`
+**Get values from Stripe Dashboard:**
+1. Developers → API keys (publishable + secret)
+2. Products → Your Product (Price ID, Product ID)
+3. Pricing Tables (Pricing Table ID)
 
-**Or add manually (get values from Stripe Dashboard):**
+**Add these 7 variables:**
 ```
 STRIPE_PUBLISHABLE_KEY=pk_live_YOUR_PUBLISHABLE_KEY_HERE
 STRIPE_SECRET_KEY=sk_live_YOUR_SECRET_KEY_HERE

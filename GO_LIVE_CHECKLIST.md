@@ -41,7 +41,10 @@ npm run abekeys setup stripe
 
 **Add these in Vercel Dashboard → Settings → Environment Variables:**
 
-**Get values from Stripe Dashboard or `VERCEL_ENV_VARS_COPY_PASTE.txt`:**
+**Get values from Stripe Dashboard:**
+1. Developers → API keys (publishable + secret)
+2. Products → Your Product (Price ID, Product ID)
+3. Pricing Tables (Pricing Table ID)
 
 ```
 STRIPE_PUBLISHABLE_KEY=pk_live_YOUR_PUBLISHABLE_KEY_HERE

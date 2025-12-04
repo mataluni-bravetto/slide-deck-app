@@ -44,9 +44,13 @@ git push origin main
 #### 2. Add Vercel Environment Variables
 **Location:** Vercel Dashboard → Project → Settings → Environment Variables
 
-**Copy from:** `VERCEL_ENV_VARS_COPY_PASTE.txt`
+**Get values from Stripe Dashboard:**
+1. Go to Stripe Dashboard → Developers → API keys
+2. Copy publishable key (pk_live_...) and secret key (sk_live_...)
+3. Go to Products → Your Product → Copy Price ID and Product ID
+4. Go to Pricing Tables → Copy Pricing Table ID (if using)
 
-**7 Variables Required (copy from `VERCEL_ENV_VARS_COPY_PASTE.txt` or Stripe Dashboard):**
+**7 Variables Required:**
 ```
 STRIPE_PUBLISHABLE_KEY=pk_live_YOUR_PUBLISHABLE_KEY_HERE
 STRIPE_SECRET_KEY=sk_live_YOUR_SECRET_KEY_HERE
@@ -170,7 +174,6 @@ User Request → Cloudflare DNS
 
 - **Full Integration Guide:** `CLOUDFLARE_VERCEL_INTEGRATION.md`
 - **Quick Deploy:** `QUICK_DEPLOY.md`
-- **Environment Variables:** `VERCEL_ENV_VARS_COPY_PASTE.txt`
 - **Worker Code:** `cloudflare-worker.js`
 - **Deployment Summary:** `DEPLOYMENT_SUMMARY.md`
 

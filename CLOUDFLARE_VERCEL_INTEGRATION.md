@@ -135,9 +135,12 @@ Update URLs in Vercel to use subdomain:
 
 **Add these 7 variables (Production environment):**
 
-**Copy from:** `VERCEL_ENV_VARS_COPY_PASTE.txt` (in repo root)
+**Get values from Stripe Dashboard:**
+1. Stripe Dashboard → Developers → API keys
+2. Products → Your Product
+3. Pricing Tables
 
-**Or add manually:**
+**Add these 7 variables:**
 ```
 STRIPE_PUBLISHABLE_KEY=pk_live_YOUR_PUBLISHABLE_KEY_HERE
 STRIPE_SECRET_KEY=sk_live_YOUR_SECRET_KEY_HERE
@@ -148,7 +151,7 @@ STRIPE_SUCCESS_URL=https://aiguardian.ai/convergence-purchase/success
 STRIPE_CANCEL_URL=https://aiguardian.ai/convergence-purchase
 ```
 
-**Note:** Get actual values from Stripe Dashboard or `VERCEL_ENV_VARS_COPY_PASTE.txt`
+**Note:** Get actual values from Stripe Dashboard
 
 **Important:** 
 - Set for **Production** environment
